@@ -15,25 +15,35 @@
 # TODO List
 
 - [x] baseline
-- [x] 基础数据读取
 - [x] 基础数据采样器
 - [x] 基础损失函数
 - [x] 基础参数配置
 - [x] 完整训练及推理流程
-- [ ] 第一轮调试超参
+- [ ] 第一轮调试超参：
+- [ ] 训练轮数-steps=100000、500000、1000000
+- [ ] 网络深度
+- [ ] 网络宽度
+- [ ] 学习率调整
+- [ ] 模型选择：
 - [ ] cPINN
 - [ ] xPINN
+- [ ] 采样方式：
 - [ ] DMIS采样
 - [ ] NDMIS采样
+- [ ] ......
 
 
 # Training Tasks
 
-- [ ] Baseline
-
+- [x] Baseline：python train.py --config-name=Schrodinger hydra.job.chdir=True
+- [x] step=100000：python train.py --config-name=Schrodinger train_conf.main_conf.max_steps=100000 hydra.job.chdir=True
+- [x] step=500000：python train.py --config-name=Schrodinger train_conf.main_conf.max_steps=500000 hydra.job.chdir=True
+- [ ] step=1000000：python train.py --config-name=Schrodinger train_conf.main_conf.max_steps=1000000 hydra.job.chdir=True
 
 # Results
 
-|   Model   |  Loss_Total  |  Score   |
-|:---------:|:------------:|:--------:|
-| baseline  | 2.63425e-03  | 0.18794  |
+|    Model    |  Loss_Total  |  Score   |
+|:-----------:|:------------:|:--------:|
+|  baseline   | 2.63425e-03  | 0.18794  |
+| step=100000 | 8.09942e-05  | 0.03687  |
+| step=500000 | 1.43624e-05  | 0.01810  |
