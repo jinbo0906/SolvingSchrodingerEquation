@@ -4,12 +4,13 @@
 # Env
 
 * python=3.8
-* torch=1.11
-* h5py==3.9.0
+* torch=1.13
 * hydra-core==1.2
-* tqdm==4.66.1
 * tensorboard==2.14.0
+* matplotlib==3.7.3
 * scipy==1.10.1
+* sympy==1.12
+* pandas==2.0.3
 
 # TODO List
 
