@@ -112,7 +112,46 @@ def train_setup(cfg):
     # -------------
     # optimizer
     # -------------
-    optim = torch.optim.Adam(model.parameters(), **train_conf["optim_conf"])
+    if train_conf["optim"] == "adam":
+        optim = torch.optim.Adam(model.parameters(), **train_conf["optim_conf"])
+    elif train_conf["optim"] == "sgd":
+        optim = torch.optim.SGD(model.parameters(), **train_conf["optim_conf"])
+    else:
+        raise ValueError("optim: {} is not supported".format(train_conf["optim"]))
+    if train_conf["sch"] == "step":
+        step_sch_conf = train_conf["sch_step"]
+        sch = torch.optim.lr_scheduler.StepLR(optim, step_size=int(
+            train_conf["train_conf"]["max_steps"] / step_sch_conf["stage"]),
+                                              gamma=step_sch_conf["gamma"])
+    elif train_conf["sch"] == "cos":
+        sch = torch.optim.lr_scheduler.CosineAnnealingLR(optim, train_conf["train_conf"]["max_steps"],
+                                                         train_conf["optim_conf"]["lr"] / 30)
+    elif train_conf["sch"] == "expon":
+        sch = torch.optim.lr_scheduler.ExponentialLR(optim, gamma=0.9)
+    elif train_conf["sch"] == "onecycle":
+        sch = torch.optim.lr_scheduler.OneCycleLR(optim,
+                                                  max_lr=train_conf["optim_conf"]["lr"],
+                                                  steps_per_epoch=int(
+                                                      train_conf["train_conf"]["max_steps"] / 10000),
+                                                  epochs=500000)
+
+    elif train_conf["sch"] == "plateau":
+        sch = torch.optim.lr_scheduler.ReduceLROnPlateau(optim, mode='min', patience=10, factor=0.8,
+                                                         verbose=False, min_lr=1e-8)
+
+    elif train_conf["sch"] == "cyclic":
+        # only support SGD
+        base_lr = train_conf["optim_conf"]["lr"] / 10
+        max_lr = train_conf["optim_conf"]["lr"]
+        sch = torch.optim.lr_scheduler.CyclicLR(optim,
+                                                base_lr=base_lr,
+                                                max_lr=max_lr,
+                                                step_size_up=int(train_conf["train_conf"]["max_steps"] / 2),
+                                                mode='triangular')
+    elif train_conf["sch"] == "Identify":
+        sch = None
+    else:
+        raise ValueError("sch: {} is not supported".format(train_conf["sch"]))
 
     # -------------
     # main loop
@@ -130,6 +169,8 @@ def train_setup(cfg):
         optim.zero_grad()
         loss_dict = problem_define.compute_loss(model, train_pde_data, train_initial_data, train_boundary_data, "train")
         optim.step()
+        if sch is not None:
+            sch.step()
 
         if step % train_main_conf["print_frequency"] == 0:
             log.info(f"step: {step}")
