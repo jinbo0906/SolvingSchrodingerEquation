@@ -121,10 +121,10 @@ def train_setup(cfg):
     if train_conf["sch"] == "step":
         step_sch_conf = train_conf["sch_step"]
         sch = torch.optim.lr_scheduler.StepLR(optim, step_size=int(
-            train_conf["train_conf"]["max_steps"] / step_sch_conf["stage"]),
+            train_conf["main_conf"]["max_steps"] / step_sch_conf["stage"]),
                                               gamma=step_sch_conf["gamma"])
     elif train_conf["sch"] == "cos":
-        sch = torch.optim.lr_scheduler.CosineAnnealingLR(optim, train_conf["train_conf"]["max_steps"],
+        sch = torch.optim.lr_scheduler.CosineAnnealingLR(optim, train_conf["main_conf"]["max_steps"],
                                                          train_conf["optim_conf"]["lr"] / 30)
     elif train_conf["sch"] == "expon":
         sch = torch.optim.lr_scheduler.ExponentialLR(optim, gamma=0.9)
@@ -132,7 +132,7 @@ def train_setup(cfg):
         sch = torch.optim.lr_scheduler.OneCycleLR(optim,
                                                   max_lr=train_conf["optim_conf"]["lr"],
                                                   steps_per_epoch=int(
-                                                      train_conf["train_conf"]["max_steps"] / 10000),
+                                                      train_conf["main_conf"]["max_steps"] / 10000),
                                                   epochs=500000)
 
     elif train_conf["sch"] == "plateau":
@@ -146,7 +146,7 @@ def train_setup(cfg):
         sch = torch.optim.lr_scheduler.CyclicLR(optim,
                                                 base_lr=base_lr,
                                                 max_lr=max_lr,
-                                                step_size_up=int(train_conf["train_conf"]["max_steps"] / 2),
+                                                step_size_up=int(train_conf["main_conf"]["max_steps"] / 2),
                                                 mode='triangular')
     elif train_conf["sch"] == "Identify":
         sch = None
