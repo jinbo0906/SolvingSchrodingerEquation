@@ -246,10 +246,10 @@
 |:-----------------------------------------------------------:|:-----------:|:-------:|:----------------------------------------:|
 |         pde_batch_size=40000,in,bo_batch_size=1000          | 1.22674e-05 |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
 |         pde_batch_size=60000,in,bo_batch_size=1000          | 1.21208e-05 |         | 2023-11-20/14-06-46/0/Schrodinger_460500 |
-|         pde_batch_size=80000,in,bo_batch_size=1000          | 1.21117e-05 |         | 2023-11-20/14-06-46/1/Schrodinger_475500 |
+|         pde_batch_size=80000,in,bo_batch_size=1000          | 1.21117e-05 | 0.01649 | 2023-11-20/14-06-46/1/Schrodinger_475500 |
 |         pde_batch_size=40000,in,bo_batch_size=3000          | 1.28156e-05 |         | 2023-11-17/09-49-47/0/Schrodinger_495500 |
 |         pde_batch_size=60000,in,bo_batch_size=3000          | 1.15495e-05 | 0.01655 | 2023-11-20/14-09-19/0/Schrodinger_486500 |
-|         pde_batch_size=80000,in,bo_batch_size=3000          |             |         |    2023-11-20/14-09-19/1/Schrodinger_    |
+|         pde_batch_size=80000,in,bo_batch_size=3000          | 1.16337e-05 | 0.01583 | 2023-11-20/14-09-19/1/Schrodinger_496000 |
 |         pde_batch_size=40000,in,bo_batch_size=5000          | 1.11789e-05 | 0.01599 | 2023-11-17/09-54-24/0/Schrodinger_497500 |
 |         pde_batch_size=60000,in,bo_batch_size=5000          | 1.23536e-05 |         | 2023-11-20/14-14-28/0/Schrodinger_470500 |
 |         pde_batch_size=80000,in,bo_batch_size=5000          |             |         |    2023-11-20/14-14-28/1/Schrodinger_    |
