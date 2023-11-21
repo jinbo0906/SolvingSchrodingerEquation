@@ -260,6 +260,16 @@
 |         pde_batch_size=60000,in,bo_batch_size=10000         | 1.23257e-05 | 0.01628 | 2023-11-17/09-54-51/1/Schrodinger_486000 |
 |         pde_batch_size=80000,in,bo_batch_size=10000         | 1.22852e-05 | 0.01645 | 2023-11-20/14-18-54/0/Schrodinger_478000 |
 
+pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000
+
+|    Model     | Loss_Total |  Score  |                  model                   |
+|:------------:|:----------:|:-------:|:----------------------------------------:|
+|   sch=step   |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+|   sch=cos    |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+|  sch=expon   |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+| sch=onecycle |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+| sch=plateau  |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+|  sch=cyclic  |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
 
 [//]: # ()
 [//]: # (| Model&#40;pde_data_n=150000,in,bo=10000,step=500000&#41; | Loss_Total  |  Score  |                  model                   |)
