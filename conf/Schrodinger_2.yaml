@@ -53,9 +53,9 @@ train_conf:
   main_conf:
     max_steps: 500000
     print_frequency: 1
-    pde_batch_size: 80000
-    initial_batch_size: 10000
-    boundary_batch_size: 10000
+    pde_batch_size: 40000
+    initial_batch_size: 5000
+    boundary_batch_size: 5000
     model_basic_save_name: ${name}
   sampler_conf:
     forward_batch_size: ${train_conf.main_conf.pde_batch_size}
