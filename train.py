@@ -177,6 +177,8 @@ def train_setup(cfg):
             for key, value in loss_dict.items():
                 log.info("{} loss: {:.5e}".format(key, value))
                 tensorboard_writer.add_scalar(f"TrainLoss/{key}", value, step)
+            log.info("learning rate: {}".format(optim.param_groups[0]['lr']))
+            tensorboard_writer.add_scalar(f"learning-rate", optim.param_groups[0]['lr'], step)
 
         if step % train_main_conf["eval_frequency"] == 0:
             log.info("save model")

@@ -137,23 +137,27 @@
 - [x] layer_size=200,layer_n=2,3,4,5：CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=150000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 model_conf.layer.layer_n=2,3,4,5 model_conf.layer.layer_size=200 hydra.job.chdir=True
 
 - step=500000,pde_data_n=80000,in,bo=10000:
-- [ ] pde_batch_size=60000,80000,in,bo_batch_size=1000:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=1000 train_conf.main_conf.boundary_batch_size=1000  hydra.job.chdir=True
-- [ ] pde_batch_size=60000,80000,in,bo_batch_size=3000:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=3000 train_conf.main_conf.boundary_batch_size=3000  hydra.job.chdir=True
-- [ ] pde_batch_size=60000,80000,in,bo_batch_size=5000:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=5000 train_conf.main_conf.boundary_batch_size=5000  hydra.job.chdir=True
+- [x] pde_batch_size=60000,80000,in,bo_batch_size=1000:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=1000 train_conf.main_conf.boundary_batch_size=1000  hydra.job.chdir=True
+- [x] pde_batch_size=60000,80000,in,bo_batch_size=3000:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=3000 train_conf.main_conf.boundary_batch_size=3000  hydra.job.chdir=True
+- [x] pde_batch_size=60000,80000,in,bo_batch_size=5000:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=5000 train_conf.main_conf.boundary_batch_size=5000  hydra.job.chdir=True
 - [ ] pde_batch_size=60000,80000,in,bo_batch_size=8000:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=60000,80000 train_conf.main_conf.initial_batch_size=8000 train_conf.main_conf.boundary_batch_size=8000  hydra.job.chdir=True
 - [x] pde_batch_size=80000,in,bo_batch_size=10000:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger --multirun train_conf.main_conf.max_steps=500000 data_conf.pde_data_n=80000 data_conf.initial_data_n=10000 data_conf.boundary_data_n=10000 train_conf.main_conf.pde_batch_size=80000 train_conf.main_conf.initial_batch_size=10000 train_conf.main_conf.boundary_batch_size=10000  hydra.job.chdir=True
 
 - learning-rate
-- [ ] sch=step:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=step hydra.job.chdir=True
-- [ ] sch=cos:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos hydra.job.chdir=True
-- [ ] sch=expon:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=expon hydra.job.chdir=True
-- [ ] sch=onecycle:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
+- [x] sch=step,lr=1e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=step hydra.job.chdir=True
+- [x] sch=cos,lr=1e-3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos hydra.job.chdir=True
+- [x] sch=expon,lr=1e-3:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=expon hydra.job.chdir=True
+- [ ] sch=cos,lr=5e-3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=cos hydra.job.chdir=True
+- [ ] sch=cos,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=cos hydra.job.chdir=True
+- [ ] sch=step,lr=5e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=step hydra.job.chdir=True
+- [ ] sch=step,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=step hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
 - [ ] sch=plateau:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=plateau hydra.job.chdir=True
-- [ ] sch=cyclic:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=cyclic hydra.job.chdir=True
+- [ ] sch=cyclic:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim=sgd train_conf.sch=cyclic hydra.job.chdir=True
 
 # Results
 
-|     Model(layer_size=64,layer_n=4)      |  Loss_Total  |  Score  |                 model                  |
+|     Model(layer_size=64,layer_n=4)      |  Loss_Total  |  Score  |               model_path               |
 |:---------------------------------------:|:------------:|:-------:|:--------------------------------------:|
 |           baseline-step=20000           | 2.63425e-03  | 0.18794 |                                        |
 |               step=100000               | 8.09942e-05  | 0.03687 | 2023-10-24/23-18-43/Schrodinger_99500  |
@@ -179,7 +183,7 @@
 | step=500000,pde_data_n=80000,in,bo=1000 | 1.34394e-05  | 0.01695 | 2023-10-28/09-13-06/Schrodinger_495000 |
 
 
-| Model(layer_size=64,layer_n=4,step=500000) | Loss_Total  |  Score  |                 model                  |
+| Model(layer_size=64,layer_n=4,step=500000) | Loss_Total  |  Score  |               model_path               |
 |:------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
 |             pde_data_n=40000,              | 1.40046e-05 | 0.0194  | 2023-11-10/12-11-47/Schrodinger_467000 |
 |              pde_data_n=80000              | 1.42688e-05 | 0.02008 | 2023-11-10/12-13-51/Schrodinger_496500 |
@@ -189,7 +193,7 @@
 |             pde_data_n=250000              | 1.42191e-05 | 0.01945 | 2023-11-10/18-31-22/Schrodinger_488500 |
 
 
-| Model(layer_size=64,layer_n=4,step=500000) | Loss_Total  |  Score  |                 model                  |
+| Model(layer_size=64,layer_n=4,step=500000) | Loss_Total  |  Score  |               model_path               |
 |:------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
 |         pde_data_n=40000,in,bo=500         | 1.51491e-05 | 0.01941 | 2023-11-13/14-33-16/Schrodinger_440000 |
 |        pde_data_n=40000,in,bo=1000         | 1.44112e-05 | 0.01867 | 2023-11-13/14-34-26/Schrodinger_482000 |
@@ -219,7 +223,7 @@
 |       pde_data_n=150000,in,bo=20000        | 1.60017e-05 |         | 2023-11-14/08-53-37/Schrodinger_479000 |
 |       pde_data_n=150000,in,bo=25000        | 1.36148e-05 |         | 2023-11-14/08-54-37/Schrodinger_470500 |
 
-| Model(pde_data_n=80000,in,bo=10000,step=500000) | Loss_Total  |  Score  |                  model                   |
+| Model(pde_data_n=80000,in,bo=10000,step=500000) | Loss_Total  |  Score  |                model_path                |
 |:-----------------------------------------------:|:-----------:|:-------:|:----------------------------------------:|
 |             layer_size=30,layer_n=2             | 2.17594e-04 |         | 2023-11-15/08-51-02/0/Schrodinger_485500 |
 |             layer_size=30,layer_n=3             | 4.03427e-05 |         | 2023-11-15/08-51-02/1/Schrodinger_493000 |
@@ -242,7 +246,7 @@
 |            layer_size=800,layer_n=2             |             |         |    2023-11-16/14-49-53/2/Schrodinger_    |
 
 
-| Model(pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4) | Loss_Total  |  Score  |                  model                   |
+| Model(pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4) | Loss_Total  |  Score  |                model_path                |
 |:-----------------------------------------------------------:|:-----------:|:-------:|:----------------------------------------:|
 |         pde_batch_size=40000,in,bo_batch_size=1000          | 1.22674e-05 |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
 |         pde_batch_size=60000,in,bo_batch_size=1000          | 1.21208e-05 |         | 2023-11-20/14-06-46/0/Schrodinger_460500 |
@@ -252,24 +256,30 @@
 |         pde_batch_size=80000,in,bo_batch_size=3000          | 1.16337e-05 | 0.01583 | 2023-11-20/14-09-19/1/Schrodinger_496000 |
 |         pde_batch_size=40000,in,bo_batch_size=5000          | 1.11789e-05 | 0.01599 | 2023-11-17/09-54-24/0/Schrodinger_497500 |
 |         pde_batch_size=60000,in,bo_batch_size=5000          | 1.23536e-05 |         | 2023-11-20/14-14-28/0/Schrodinger_470500 |
-|         pde_batch_size=80000,in,bo_batch_size=5000          |             |         |    2023-11-20/14-14-28/1/Schrodinger_    |
+|         pde_batch_size=80000,in,bo_batch_size=5000          | 1.19882e-05 | 0.01663 | 2023-11-20/14-14-28/1/Schrodinger_470000 |
 |         pde_batch_size=40000,in,bo_batch_size=8000          | 1.22906e-05 | 0.01688 | 2023-11-17/09-54-42/0/Schrodinger_491000 |
-|         pde_batch_size=60000,in,bo_batch_size=8000          |             |         |    2023-11-21/09-02-52/0/Schrodinger_    |
-|         pde_batch_size=80000,in,bo_batch_size=8000          |             |         |    2023-11-21/09-02-52/1/Schrodinger_    |
+|         pde_batch_size=60000,in,bo_batch_size=8000          | 1.16038e-05 | 0.01638 | 2023-11-21/09-02-52/0/Schrodinger_484500 |
+|         pde_batch_size=80000,in,bo_batch_size=8000          | 1.09211e-05 | 0.01588 | 2023-11-21/09-02-52/1/Schrodinger_486000 |
 |         pde_batch_size=40000,in,bo_batch_size=10000         | 1.26466e-05 | 0.01673 | 2023-11-17/09-54-51/0/Schrodinger_497500 |
 |         pde_batch_size=60000,in,bo_batch_size=10000         | 1.23257e-05 | 0.01628 | 2023-11-17/09-54-51/1/Schrodinger_486000 |
 |         pde_batch_size=80000,in,bo_batch_size=10000         | 1.22852e-05 | 0.01645 | 2023-11-20/14-18-54/0/Schrodinger_478000 |
 
 pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000
 
-|    Model     | Loss_Total |  Score  |                  model                   |
-|:------------:|:----------:|:-------:|:----------------------------------------:|
-|   sch=step   |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
-|   sch=cos    |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
-|  sch=expon   |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
-| sch=onecycle |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
-| sch=plateau  |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
-|  sch=cyclic  |            |         | 2023-11-17/09-47-34/0/Schrodinger_490500 |
+|      Model       | Loss_Total  |  Score  |               model_path               |
+|:----------------:|:-----------:|:-------:|:--------------------------------------:|
+|     sch=step     | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
+|     sch=cos      | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
+|    sch=expon     | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
+|   sch=onecycle   | 2.19975e-05 |         | 2023-11-22/14-42-15/Schrodinger_499000 |
+| sch=cos,lr=5e-3  |             |         |    2023-11-22/21-04-05/Schrodinger_    |
+| sch=cos,lr=5e-4  |             |         |    2023-11-22/21-04-16/Schrodinger_    |
+| sch=step,lr=5e-3 |             |         |    2023-11-22/21-04-05/Schrodinger_    |
+| sch=step,lr=5e-4 |             |         |    2023-11-22/21-04-16/Schrodinger_    |
+|   sch=plateau    |             |         |                                        |
+|    sch=cyclic    |             |         |                                        |
+
+
 
 [//]: # ()
 [//]: # (| Model&#40;pde_data_n=150000,in,bo=10000,step=500000&#41; | Loss_Total  |  Score  |                  model                   |)
