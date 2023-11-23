@@ -131,9 +131,8 @@ def train_setup(cfg):
     elif train_conf["sch"] == "onecycle":
         sch = torch.optim.lr_scheduler.OneCycleLR(optim,
                                                   max_lr=train_conf["optim_conf"]["lr"],
-                                                  steps_per_epoch=int(
-                                                      train_conf["main_conf"]["max_steps"] / 10000),
-                                                  epochs=500000)
+                                                  pct_start=0.1,
+                                                  total_steps=train_conf["main_conf"]["max_steps"])
 
     elif train_conf["sch"] == "plateau":
         sch = torch.optim.lr_scheduler.ReduceLROnPlateau(optim, mode='min', patience=10, factor=0.8,
