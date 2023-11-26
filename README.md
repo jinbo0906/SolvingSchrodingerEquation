@@ -147,13 +147,16 @@
 - [x] sch=step,lr=1e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=step hydra.job.chdir=True
 - [x] sch=cos,lr=1e-3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos hydra.job.chdir=True
 - [x] sch=expon,lr=1e-3:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=expon hydra.job.chdir=True
-- [ ] sch=cos,lr=5e-3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=cos hydra.job.chdir=True
-- [ ] sch=cos,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=cos hydra.job.chdir=True
-- [ ] sch=step,lr=5e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=step hydra.job.chdir=True
-- [ ] sch=step,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=step hydra.job.chdir=True
-- [x] sch=onecycle,lr=1e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
+- [x] sch=cos,lr=5e-3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=cos hydra.job.chdir=True
+- [x] sch=cos,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=cos hydra.job.chdir=True
+- [x] sch=step,lr=5e-3:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-3 train_conf.sch=step hydra.job.chdir=True
+- [x] sch=step,lr=5e-4:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim_conf.lr=5e-4 train_conf.sch=step hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.1:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
 - [ ] sch=plateau:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=plateau hydra.job.chdir=True
 - [ ] sch=cyclic:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim=sgd train_conf.sch=cyclic hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.2:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.3 hydra.job.chdir=True
+- [ ] sch=onecycle,lr=2e-4,pct_start=0.2:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 train_conf.optim_conf.lr=2e-4 hydra.job.chdir=True
 
 # Results
 
@@ -266,18 +269,20 @@
 
 pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000
 
-|      Model       | Loss_Total  |  Score  |               model_path               |
-|:----------------:|:-----------:|:-------:|:--------------------------------------:|
-|     sch=step     | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
-|     sch=cos      | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
-|    sch=expon     | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
-|   sch=onecycle   | 2.19975e-05 |         | 2023-11-22/14-42-15/Schrodinger_499000 |
-| sch=cos,lr=5e-3  |             |         |    2023-11-22/21-04-05/Schrodinger_    |
-| sch=cos,lr=5e-4  |             |         |    2023-11-22/21-04-16/Schrodinger_    |
-| sch=step,lr=5e-3 |             |         |    2023-11-22/21-04-05/Schrodinger_    |
-| sch=step,lr=5e-4 |             |         |    2023-11-22/21-04-16/Schrodinger_    |
-|   sch=plateau    |             |         |                                        |
-|    sch=cyclic    |             |         |                                        |
+|               Model                | Loss_Total  |  Score  |               model_path               |
+|:----------------------------------:|:-----------:|:-------:|:--------------------------------------:|
+|          sch=step,lr=1e-3          | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
+|          sch=cos,lr=1e-3           | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
+|         sch=expon,lr=1e-3          | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
+| sch=onecycle,lr=1e-3,pct_start=0.1 | 1.79403e-06 | 0.01271 | 2023-11-23/14-03-51/Schrodinger_497000 |
+|          sch=cos,lr=5e-3           | 3.02756e-06 | 0.01282 | 2023-11-22/21-04-05/Schrodinger_498500 |
+|          sch=cos,lr=5e-4           | 4.10847e-06 | 0.01288 | 2023-11-22/21-04-16/Schrodinger_491500 |
+|          sch=step,lr=5e-3          | 2.11799e-06 | 0.01271 | 2023-11-23/08-26-12/Schrodinger_497000 |
+|          sch=step,lr=5e-4          | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500 |
+| sch=onecycle,lr=1e-3,pct_start=0.2 |             |         |                                        |
+| sch=onecycle,lr=1e-3,pct_start=0.3 |             |         |                                        |
+|            sch=plateau             |             |         |                                        |
+|             sch=cyclic             |             |         |                                        |
 
 
 

@@ -47,6 +47,8 @@ train_conf:
     weight_decay: 0.0
     amsgrad: False
   sch: Identify
+  sch_par:
+    pct_start: 0.1
   sch_step:
     gamma: 0.1
     stage: 4
