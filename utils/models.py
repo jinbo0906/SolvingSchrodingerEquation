@@ -6,6 +6,19 @@ import torch
 from torch import nn
 
 
+class AdaptiveTanh(nn.Module):
+
+    def __init__(self, scale_factor=1.0):
+        super(AdaptiveTanh, self).__init__()
+
+        self.param = nn.Parameter(torch.tensor(1.0))
+        self.activate_func = nn.Tanh()
+        self.scale_factor = scale_factor
+
+    def forward(self, x):
+        return self.activate_func(self.param * x * self.scale_factor)
+
+
 class FullyConnectedNetwork(nn.Module):
 
     def __init__(self, conf):
@@ -24,10 +37,11 @@ class FullyConnectedNetwork(nn.Module):
         curr_dim = self.dim_conf["input_dim"]
         activate_func = self.layer_conf["activate"]
         norm_flag = self.layer_conf["norm"]
+
         for layer_id, layer_dim in enumerate(layer_size):
             self._network.add_module(
                 "layer_{}".format(layer_id + 1),
-                self._make_layer(curr_dim, layer_dim, norm_flag, activate_func)
+                self._make_layer(curr_dim, layer_dim, norm_flag, activate_func, self.layer_conf["activate_scale_factor"])
             )
             curr_dim = layer_dim
 
@@ -35,7 +49,8 @@ class FullyConnectedNetwork(nn.Module):
             "layer_{}".format(len(layer_size) + 1),
             self._make_layer(curr_dim,
                              self.dim_conf["output_dim"],
-                             activate_func=self.layer_conf["final_activate"])
+                             activate_func=self.layer_conf["final_activate"],
+                             activate_scale_factor=self.layer_conf["activate_scale_factor"])
         )
 
     def _forward_impl(self, x):
@@ -45,7 +60,7 @@ class FullyConnectedNetwork(nn.Module):
         return self._forward_impl(x)
 
     @staticmethod
-    def _make_layer(input_dim, output_dim, norm=False, activate_func="tanh"):
+    def _make_layer(input_dim, output_dim, norm=False, activate_func="tanh", activate_scale_factor=1.0):
         layers = list()
 
         layers.append(
@@ -59,6 +74,8 @@ class FullyConnectedNetwork(nn.Module):
 
         if activate_func == "tanh":
             layers.append(nn.Tanh())
+        elif activate_func == "adaptive_tanh":
+            layers.append(AdaptiveTanh(activate_scale_factor))
         elif activate_func == "Identify":
             pass
         else:

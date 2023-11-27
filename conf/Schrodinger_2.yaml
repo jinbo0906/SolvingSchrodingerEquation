@@ -21,6 +21,8 @@ model_conf:
   layer:
     layer_n: 4
     layer_size: [64, 64, 64, 64]
+    activate: "tanh"
+    activate_scale_factor: 1.0
 
 problem_conf:
   dims: 2

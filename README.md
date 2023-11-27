@@ -26,9 +26,11 @@
 - [x] 网络宽度
 - [ ] 第二轮调试超参：
 - [x] 学习率调整
+- [ ] 自适应激活函数
 - [ ] 模型选择：
 - [ ] cPINN
 - [ ] xPINN
+- [ ] gPINN
 - [ ] 采样方式：
 - [ ] DMIS采样
 - [ ] NDMIS采样
@@ -154,9 +156,12 @@
 - [x] sch=onecycle,lr=1e-3,pct_start=0.1:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
 - [ ] sch=plateau:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=plateau hydra.job.chdir=True
 - [ ] sch=cyclic:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim=sgd train_conf.sch=cyclic hydra.job.chdir=True
-- [ ] sch=onecycle,lr=1e-3,pct_start=0.2:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.2:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 hydra.job.chdir=True
 - [ ] sch=onecycle,lr=1e-3,pct_start=0.3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.3 hydra.job.chdir=True
-- [ ] sch=onecycle,lr=2e-4,pct_start=0.2:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 train_conf.optim_conf.lr=2e-4 hydra.job.chdir=True
+- [ ] sch=onecycle,lr=2e-4,pct_start=0.2:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 train_conf.optim_conf.lr=2e-4 hydra.job.chdir=True
+
+- adaptive activate_func
+- [] sch=cos,lr=1e-3,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=adaptive_tanh hydra.job.chdir=True
 
 # Results
 
@@ -281,6 +286,7 @@ pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_
 |          sch=step,lr=5e-4          | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500 |
 | sch=onecycle,lr=1e-3,pct_start=0.2 |             |         |                                        |
 | sch=onecycle,lr=1e-3,pct_start=0.3 |             |         |                                        |
+| sch=onecycle,lr=2e-4,pct_start=0.2 |             |         |                                        |
 |            sch=plateau             |             |         |                                        |
 |             sch=cyclic             |             |         |                                        |
 
