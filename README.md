@@ -26,14 +26,14 @@
 - [x] 网络宽度
 - [ ] 第二轮调试超参：
 - [x] 学习率调整
-- [ ] 自适应激活函数
+- [x] 自适应激活函数
+- [ ] 采样方式：
+- [ ] DMIS采样
 - [ ] 模型选择：
 - [ ] cPINN
 - [ ] xPINN
 - [ ] gPINN
-- [ ] 采样方式：
-- [ ] DMIS采样
-- [ ] NDMIS采样
+
 - [ ] ......
 
 
@@ -156,12 +156,20 @@
 - [x] sch=onecycle,lr=1e-3,pct_start=0.1:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle hydra.job.chdir=True
 - [ ] sch=plateau:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=plateau hydra.job.chdir=True
 - [ ] sch=cyclic:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.optim=sgd train_conf.sch=cyclic hydra.job.chdir=True
-- [ ] sch=onecycle,lr=1e-3,pct_start=0.2:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 hydra.job.chdir=True
-- [ ] sch=onecycle,lr=1e-3,pct_start=0.3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.3 hydra.job.chdir=True
-- [ ] sch=onecycle,lr=2e-4,pct_start=0.2:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 train_conf.optim_conf.lr=2e-4 hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.2:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.3:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.3 hydra.job.chdir=True
+- [x] sch=onecycle,lr=2e-4,pct_start=0.2:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 train_conf.optim_conf.lr=2e-4 hydra.job.chdir=True
 
 - adaptive activate_func
-- [] sch=cos,lr=1e-3,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=adaptive_tanh hydra.job.chdir=True
+- [x] sch=cos,lr=1e-3,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=adaptive_tanh hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh hydra.job.chdir=True
+
+- DMIS
+- [ ] sch=cos,lr=1e-3,activate_func=tanh:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=cos train_conf.pde_sampler=SamplerWithDMIS train_conf.pde_reweighting=BiasedReWeighting hydra.job.chdir=True
+- [ ] sch=cos,lr=1e-3,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=adaptive_tanh train_conf.pde_sampler=SamplerWithDMIS train_conf.pde_reweighting=BiasedReWeighting hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,activate_func=tanh:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.pde_sampler=SamplerWithDMIS train_conf.pde_reweighting=BiasedReWeighting hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,activate_func=adaptive_tanh:CUDA_VISIBLE_DEVICES=3 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle model_conf.layer.activate=adaptive_tanh train_conf.pde_sampler=SamplerWithDMIS train_conf.pde_reweighting=BiasedReWeighting hydra.job.chdir=True
+
 
 # Results
 
@@ -274,22 +282,32 @@
 
 pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000
 
-|               Model                | Loss_Total  |  Score  |               model_path               |
-|:----------------------------------:|:-----------:|:-------:|:--------------------------------------:|
-|          sch=step,lr=1e-3          | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
-|          sch=cos,lr=1e-3           | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
-|         sch=expon,lr=1e-3          | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
-| sch=onecycle,lr=1e-3,pct_start=0.1 | 1.79403e-06 | 0.01271 | 2023-11-23/14-03-51/Schrodinger_497000 |
-|          sch=cos,lr=5e-3           | 3.02756e-06 | 0.01282 | 2023-11-22/21-04-05/Schrodinger_498500 |
-|          sch=cos,lr=5e-4           | 4.10847e-06 | 0.01288 | 2023-11-22/21-04-16/Schrodinger_491500 |
-|          sch=step,lr=5e-3          | 2.11799e-06 | 0.01271 | 2023-11-23/08-26-12/Schrodinger_497000 |
-|          sch=step,lr=5e-4          | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500 |
-| sch=onecycle,lr=1e-3,pct_start=0.2 |             |         |                                        |
-| sch=onecycle,lr=1e-3,pct_start=0.3 |             |         |                                        |
-| sch=onecycle,lr=2e-4,pct_start=0.2 |             |         |                                        |
-|            sch=plateau             |             |         |                                        |
-|             sch=cyclic             |             |         |                                        |
+|                             Model                              | Loss_Total  |  Score  |               model_path               |
+|:--------------------------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
+|                        sch=step,lr=1e-3                        | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
+|                        sch=cos,lr=1e-3                         | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
+|                       sch=expon,lr=1e-3                        | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
+|               sch=onecycle,lr=1e-3,pct_start=0.1               | 1.79403e-06 | 0.01271 | 2023-11-23/14-03-51/Schrodinger_497000 |
+|                        sch=cos,lr=5e-3                         | 3.02756e-06 | 0.01282 | 2023-11-22/21-04-05/Schrodinger_498500 |
+|                        sch=cos,lr=5e-4                         | 4.10847e-06 | 0.01288 | 2023-11-22/21-04-16/Schrodinger_491500 |
+|                        sch=step,lr=5e-3                        | 2.11799e-06 | 0.01271 | 2023-11-23/08-26-12/Schrodinger_497000 |
+|                        sch=step,lr=5e-4                        | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500 |
+|               sch=onecycle,lr=1e-3,pct_start=0.2               | 2.04241e-06 | 0.01271 | 2023-11-27/08-44-54/Schrodinger_497000 |
+|               sch=onecycle,lr=1e-3,pct_start=0.3               | 2.07700e-06 | 0.01272 | 2023-11-27/08-45-02/Schrodinger_497000 |
+|               sch=onecycle,lr=2e-4,pct_start=0.2               | 1.67650e-05 |         | 2023-11-27/08-45-24/Schrodinger_492500 |
+|                          sch=plateau                           |             |         |                                        |
+|                           sch=cyclic                           |             |         |                                        |
+|          sch=cos,lr=1e-3,activate_func=adaptive_tanh           | 1.56126e-06 | 0.01273 | 2023-11-27/09-21-07/Schrodinger_496000 |
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh |             |         |    2023-11-28/01-06-13/Schrodinger_    |
 
+pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000,lr=1e-3
+
+|                      Model(DMIS)                       | Loss_Total | Score | model_path |
+|:------------------------------------------------------:|:----------:|:-----:|:----------:|
+|               sch=cos,activate_func=tanh               |            |       |            | 
+|          sch=cos,activate_func=adaptive_tanh           |            |       |            | 
+|     sch=onecycle,activate_func=tanh,pct_start=0.1      |            |       |            | 
+| sch=onecycle,activate_func=adaptive_tanh,pct_start=0.1 |            |       |            | 
 
 
 [//]: # ()
