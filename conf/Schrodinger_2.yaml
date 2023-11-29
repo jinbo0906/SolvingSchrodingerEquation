@@ -23,6 +23,7 @@ model_conf:
     layer_size: [64, 64, 64, 64]
     activate: "tanh"
     activate_scale_factor: 1.0
+  gPINNs: False
 
 problem_conf:
   dims: 2

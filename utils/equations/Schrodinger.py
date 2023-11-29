@@ -73,6 +73,39 @@ class Schrodinger(ProblemDefine2d):
         pde_output_imag = df_dt_real + 0.5 * df_dxx_imag + (pred_real ** 2 + pred_imag ** 2) * pred_imag
         return pde_output_real, pde_output_imag
 
+    def gpde_loss(self, pred, input_tensor):
+
+        pred_real = pred[:, 0:1]
+        pred_imag = pred[:, 1:2]
+
+        df_dt_dx_real = fwd_gradients(pred_real, input_tensor)
+        df_dt_real = df_dt_dx_real[:, 0:1]
+        df_dx_real = df_dt_dx_real[:, 1:2]
+
+        df_dtx_real = fwd_gradients(df_dt_real, input_tensor)[:, 1:2]
+        df_dtt_real = fwd_gradients(df_dt_real, input_tensor)[:, 0:1]
+
+        df_dt_dx_imag = fwd_gradients(pred_imag, input_tensor)
+        df_dt_imag = df_dt_dx_imag[:, 0:1]
+        df_dx_imag = df_dt_dx_imag[:, 1:2]
+
+        df_dtt_img = fwd_gradients(df_dt_imag, input_tensor)[:, 0:1]
+        df_dtx_img = fwd_gradients(df_dt_imag, input_tensor)[:, 1:2]
+
+        df_dxx_real = fwd_gradients(df_dx_real, input_tensor)[:, 1:2]
+        df_dxx_imag = fwd_gradients(df_dx_imag, input_tensor)[:, 1:2]
+
+        df_dxxx_real = fwd_gradients(df_dxx_real, input_tensor)[:, 1:2]
+        df_dxxt_real = fwd_gradients(df_dxx_real, input_tensor)[:, 0:1]
+        df_dxxx_imag = fwd_gradients(df_dxx_imag, input_tensor)[:, 1:2]
+        df_dxxt_imag = fwd_gradients(df_dxx_imag, input_tensor)[:, 0:1]
+
+        gpde_output_real = -df_dtx_img + 0.5 * (df_dxxx_real + df_dxxt_real) + (3 * pred_real ** 2 + pred_imag ** 2) * (
+                    df_dx_real + df_dt_real) + 2 * pred_real * pred_imag * df_dx_imag - df_dtt_img + 2 * pred_real * pred_imag * df_dt_imag
+        gpde_output_imag = df_dtx_real + 0.5 * (df_dxxx_imag + df_dxxt_imag) + (3 * pred_imag ** 2 + pred_real ** 2) * (
+                    df_dx_imag + df_dt_imag) + 2 * pred_real * pred_imag * df_dx_real - df_dtt_real + 2 * pred_real * pred_imag * df_dt_real
+        return gpde_output_real, gpde_output_imag
+
     def boundary_loss(self, input_lower, input_upper, pred_lower, pred_upper):
 
         df_dx_lower_real = fwd_gradients(pred_lower[:, 0:1], input_lower)[:, 1:2]
@@ -86,12 +119,12 @@ class Schrodinger(ProblemDefine2d):
         boundary_gradient_loss_real = torch.mean((df_dx_lower_real - df_dx_upper_real) ** 2)
         boundary_gradient_loss_imag = torch.mean((df_dx_lower_imag - df_dx_upper_imag) ** 2)
 
-        total_boundary_loss = boundary_value_loss_real + boundary_value_loss_imag +\
+        total_boundary_loss = boundary_value_loss_real + boundary_value_loss_imag + \
                               boundary_gradient_loss_real + boundary_gradient_loss_imag
 
         return total_boundary_loss
 
-    def compute_loss(self, model, pde_data, initial_data, boundary_data, state="train"):
+    def compute_loss(self, model, pde_data, initial_data, boundary_data, state="train", gpinn=False):
         loss_dict = dict()
         if state == "train":
 
@@ -127,14 +160,34 @@ class Schrodinger(ProblemDefine2d):
             _pde_weight = torch.reshape(_pde_weight, (pde_pred.shape[0], 1))
             _pde_real, _pde_imag = self.pde_loss(pde_pred, _pde_data)
             pde_loss = torch.sum((_pde_real ** 2 + _pde_imag ** 2).mul(_pde_weight))
+            # -------------
+            # gpde
+            # -------------
+            if gpinn:
+                _pde_data = pde_data["data"]
+                _gpde_weight = pde_data["weights"] / torch.sum(pde_data["weights"])
+                pde_pred = model(_pde_data)
+                _pde_weight = torch.reshape(_pde_weight, (pde_pred.shape[0], 1))
+                _gpde_real, _gpde_imag = self.gpde_loss(pde_pred, _pde_data)
+                gpde_loss = torch.sum((_gpde_real ** 2 + _gpde_imag ** 2).mul(_gpde_weight))
+                total_loss = initial_loss + boundary_loss + pde_loss + gpde_loss
+                total_loss.backward()
 
-            total_loss = initial_loss + boundary_loss + pde_loss
-            total_loss.backward()
+                loss_dict["pde"] = pde_loss.item()
+                loss_dict["initial"] = initial_loss.item()
+                loss_dict["boundary"] = boundary_loss.item()
+                loss_dict["gpde"] = gpde_loss.item()
+                loss_dict["total"] = total_loss.item()
 
-            loss_dict["pde"] = pde_loss.item()
-            loss_dict["initial"] = initial_loss.item()
-            loss_dict["boundary"] = boundary_loss.item()
-            loss_dict["total"] = total_loss.item()
+            else:
+                total_loss = initial_loss + boundary_loss + pde_loss
+
+                total_loss.backward()
+
+                loss_dict["pde"] = pde_loss.item()
+                loss_dict["initial"] = initial_loss.item()
+                loss_dict["boundary"] = boundary_loss.item()
+                loss_dict["total"] = total_loss.item()
 
         return loss_dict
 
@@ -143,4 +196,3 @@ class Schrodinger(ProblemDefine2d):
         _pde_real, _pde_imag = self.pde_loss(pde_pred, data)
         pde_loss = torch.sqrt(_pde_real ** 2 + _pde_imag ** 2)
         return pde_loss
-
