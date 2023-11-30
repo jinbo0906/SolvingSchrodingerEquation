@@ -82,23 +82,27 @@ class Schrodinger(ProblemDefine2d):
         df_dt_real = df_dt_dx_real[:, 0:1]
         df_dx_real = df_dt_dx_real[:, 1:2]
 
-        df_dtx_real = fwd_gradients(df_dt_real, input_tensor)[:, 1:2]
-        df_dtt_real = fwd_gradients(df_dt_real, input_tensor)[:, 0:1]
+        df_dt_dx_dt_real = fwd_gradients(df_dt_real, input_tensor)
+        df_dtx_real = df_dt_dx_dt_real[:, 1:2]
+        df_dtt_real = df_dt_dx_dt_real[:, 0:1]
 
         df_dt_dx_imag = fwd_gradients(pred_imag, input_tensor)
         df_dt_imag = df_dt_dx_imag[:, 0:1]
         df_dx_imag = df_dt_dx_imag[:, 1:2]
 
-        df_dtt_img = fwd_gradients(df_dt_imag, input_tensor)[:, 0:1]
-        df_dtx_img = fwd_gradients(df_dt_imag, input_tensor)[:, 1:2]
+        df_dt_dx_dt_img = fwd_gradients(df_dt_imag, input_tensor)
+        df_dtt_img = df_dt_dx_dt_img[:, 0:1]
+        df_dtx_img = df_dt_dx_dt_img[:, 1:2]
 
         df_dxx_real = fwd_gradients(df_dx_real, input_tensor)[:, 1:2]
         df_dxx_imag = fwd_gradients(df_dx_imag, input_tensor)[:, 1:2]
 
-        df_dxxx_real = fwd_gradients(df_dxx_real, input_tensor)[:, 1:2]
-        df_dxxt_real = fwd_gradients(df_dxx_real, input_tensor)[:, 0:1]
-        df_dxxx_imag = fwd_gradients(df_dxx_imag, input_tensor)[:, 1:2]
-        df_dxxt_imag = fwd_gradients(df_dxx_imag, input_tensor)[:, 0:1]
+        df_dxx_dx_dt_real = fwd_gradients(df_dxx_real, input_tensor)
+        df_dxxx_real = df_dxx_dx_dt_real[:, 1:2]
+        df_dxxt_real = df_dxx_dx_dt_real[:, 0:1]
+        df_dxx_dx_dt_imag = fwd_gradients(df_dxx_imag, input_tensor)
+        df_dxxx_imag = df_dxx_dx_dt_imag[:, 1:2]
+        df_dxxt_imag = df_dxx_dx_dt_imag[:, 0:1]
 
         gpde_output_real = -df_dtx_img + 0.5 * (df_dxxx_real + df_dxxt_real) + (3 * pred_real ** 2 + pred_imag ** 2) * (
                     df_dx_real + df_dt_real) + 2 * pred_real * pred_imag * df_dx_imag - df_dtt_img + 2 * pred_real * pred_imag * df_dt_imag

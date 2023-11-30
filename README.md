@@ -167,6 +167,9 @@
 - [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=5:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.layer.activate_scale_factor=5.0 hydra.job.chdir=True
 - [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=10:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.layer.activate_scale_factor=10.0 hydra.job.chdir=True
 
+- gPINNs
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,gpinn=True:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=40000 hydra.job.chdir=True
+
 
 # Results
 
@@ -296,6 +299,11 @@ pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_
 | sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=5  | 1.21099e-06 | 0.01273 | 2023-11-29/01-28-40/Schrodinger_497000 |
 | sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=10 | 1.28245e-06 | 0.01273 | 2023-11-29/01-29-47/Schrodinger_497000 |
 
+pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=40000,in,bo_batch_size=3000
+
+|                         Model(gPINNs)                          | Loss_Total | Score |            model_path             |
+|:--------------------------------------------------------------:|:----------:|:-----:|:---------------------------------:|
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh |            |       | 2023-11-30/01-39-00/Schrodinger_  |
 
 [//]: # ()
 [//]: # (| Model&#40;pde_data_n=150000,in,bo=10000,step=500000&#41; | Loss_Total  |  Score  |                  model                   |)
