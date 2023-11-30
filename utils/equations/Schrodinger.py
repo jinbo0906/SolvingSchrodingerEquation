@@ -107,11 +107,11 @@ class Schrodinger(ProblemDefine2d):
         pde_output_real = -df_dt_imag + 0.5 * df_dxx_real + (pred_real ** 2 + pred_imag ** 2) * pred_real
         pde_output_imag = df_dt_real + 0.5 * df_dxx_imag + (pred_real ** 2 + pred_imag ** 2) * pred_imag
 
-        gpde_output_real = -df_dtx_img + 0.5 * (df_dxxx_real + df_dxxt_real) + (3 * pred_real ** 2 + pred_imag ** 2) * (
-                    df_dx_real + df_dt_real) + 2 * pred_real * pred_imag * df_dx_imag - df_dtt_img + 2 * pred_real * pred_imag * df_dt_imag
-        gpde_output_imag = df_dtx_real + 0.5 * (df_dxxx_imag + df_dxxt_imag) + (3 * pred_imag ** 2 + pred_real ** 2) * (
-                    df_dx_imag + df_dt_imag) + 2 * pred_real * pred_imag * df_dx_real - df_dtt_real + 2 * pred_real * pred_imag * df_dt_real
-        return pde_output_real, pde_output_imag, gpde_output_real, gpde_output_imag
+        gpde_dx_output_real = -df_dtx_img + 0.5 * df_dxxx_real + (3 * pred_real ** 2 + pred_imag ** 2) * df_dx_real + 2 * pred_real * pred_imag * df_dx_imag
+        gpde_dt_output_real = -df_dtt_img + 0.5 * df_dxxt_real + (3 * pred_real ** 2 + pred_imag ** 2) * df_dt_real + 2 * pred_real * pred_imag * df_dt_imag
+        gpde_dx_output_imag = df_dtx_real + 0.5 * df_dxxx_imag + (3 * pred_imag ** 2 + pred_real ** 2) * df_dx_imag + 2 * pred_real * pred_imag * df_dx_real
+        gpde_dt_output_imag = df_dtt_real + 0.5 * df_dxxt_imag + (3 * pred_imag ** 2 + pred_real ** 2) * df_dt_imag + 2 * pred_real * pred_imag * df_dt_real
+        return pde_output_real, pde_output_imag, gpde_dx_output_real, gpde_dt_output_real, gpde_dx_output_imag, gpde_dt_output_imag
 
     def boundary_loss(self, input_lower, input_upper, pred_lower, pred_upper):
 
@@ -166,9 +166,9 @@ class Schrodinger(ProblemDefine2d):
                 _pde_weight = pde_data["weights"] / torch.sum(pde_data["weights"])
                 pde_pred = model(_pde_data)
                 _pde_weight = torch.reshape(_pde_weight, (pde_pred.shape[0], 1))
-                _pde_real, _pde_imag, _gpde_real, _gpde_imag = self.gpde_loss(pde_pred, _pde_data)
+                _pde_real, _pde_imag, _gpde_dx_real, _gpde_dt_real, _gpde_dx_imag, _gpde_dt_imag = self.gpde_loss(pde_pred, _pde_data)
                 pde_loss = torch.sum((_pde_real ** 2 + _pde_imag ** 2).mul(_pde_weight))
-                gpde_loss = torch.sum((_gpde_real ** 2 + _gpde_imag ** 2).mul(_pde_weight))
+                gpde_loss = torch.sum((_gpde_dx_real ** 2 + _gpde_dt_real ** 2 + _gpde_dx_imag ** 2 + _gpde_dx_imag ** 2).mul(_pde_weight))
                 total_loss = initial_loss + boundary_loss + pde_loss + gpde_loss
                 total_loss.backward()
 
