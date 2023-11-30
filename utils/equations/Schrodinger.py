@@ -131,7 +131,7 @@ class Schrodinger(ProblemDefine2d):
 
         return total_boundary_loss
 
-    def compute_loss(self, model, pde_data, initial_data, boundary_data, state="train", gpinn=False):
+    def compute_loss(self, model, pde_data, initial_data, boundary_data, state="train", gpinn=False, g_param=0.01):
         loss_dict = dict()
         if state == "train":
 
@@ -169,7 +169,7 @@ class Schrodinger(ProblemDefine2d):
                 _pde_real, _pde_imag, _gpde_dx_real, _gpde_dt_real, _gpde_dx_imag, _gpde_dt_imag = self.gpde_loss(pde_pred, _pde_data)
                 pde_loss = torch.sum((_pde_real ** 2 + _pde_imag ** 2).mul(_pde_weight))
                 gpde_loss = torch.sum((_gpde_dx_real ** 2 + _gpde_dt_real ** 2 + _gpde_dx_imag ** 2 + _gpde_dx_imag ** 2).mul(_pde_weight))
-                total_loss = initial_loss + boundary_loss + pde_loss + gpde_loss
+                total_loss = initial_loss + boundary_loss + pde_loss + g_param * gpde_loss
                 total_loss.backward()
 
                 loss_dict["pde"] = pde_loss.item()

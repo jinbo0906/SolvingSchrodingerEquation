@@ -166,7 +166,7 @@ def train_setup(cfg):
         train_boundary_data = train_boundary_sampler.sampler(train_main_conf["boundary_batch_size"])
 
         optim.zero_grad()
-        loss_dict = problem_define.compute_loss(model, train_pde_data, train_initial_data, train_boundary_data, "train", model_conf["gPINNs"])
+        loss_dict = problem_define.compute_loss(model, train_pde_data, train_initial_data, train_boundary_data, "train", model_conf["gPINNs"], model_conf["g_param"])
         optim.step()
         if sch is not None:
             sch.step()

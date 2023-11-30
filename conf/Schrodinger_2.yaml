@@ -24,6 +24,7 @@ model_conf:
     activate: "tanh"
     activate_scale_factor: 1.0
   gPINNs: False
+  g_param: 0.01
 
 problem_conf:
   dims: 2
