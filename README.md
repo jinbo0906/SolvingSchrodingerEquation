@@ -166,10 +166,15 @@
 - [x] sch=cos,lr=1e-3,activate_func=adaptive_tanh,activate_scale_factor=10:CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=adaptive_tanh model_conf.layer.activate_scale_factor=10.0 hydra.job.chdir=True
 - [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=5:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.layer.activate_scale_factor=5.0 hydra.job.chdir=True
 - [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=10:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.layer.activate_scale_factor=10.0 hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,max_steps=1000000:CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh train_conf.main_conf.max_steps=1000000 hydra.job.chdir=True
 
 - gPINNs
-- [ ] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=40000,gpinn=True:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=40000 hydra.job.chdir=True
-- [ ] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=60000,gpinn=True:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=60000 hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=40000,gpinn=True:CUDA_VISIBLE_DEVICES=1 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=40000 hydra.job.chdir=True
+- [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=80000,gpinn=True:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=80000 hydra.job.chdir=True
+
+- SiLU
+- [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=silu:CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=silu hydra.job.chdir=True
+- [x] sch=cos,lr=1e-3,activate_func=silu:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=silu hydra.job.chdir=True
 
 
 # Results
@@ -278,153 +283,28 @@
 
 pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,pde_batch_size=80000,in,bo_batch_size=3000
 
-|                                          Model                                          | Loss_Total  |  Score  |               model_path               |
-|:---------------------------------------------------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
-|                                    sch=step,lr=1e-3                                     | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000 |
-|                                     sch=cos,lr=1e-3                                     | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500 |
-|                                    sch=expon,lr=1e-3                                    | 1.60508e-01 |         | 2023-11-21/21-32-06/Schrodinger_416500 |
-|                           sch=onecycle,lr=1e-3,pct_start=0.1                            | 1.79403e-06 | 0.01271 | 2023-11-23/14-03-51/Schrodinger_497000 |
-|                                     sch=cos,lr=5e-3                                     | 3.02756e-06 | 0.01282 | 2023-11-22/21-04-05/Schrodinger_498500 |
-|                                     sch=cos,lr=5e-4                                     | 4.10847e-06 | 0.01288 | 2023-11-22/21-04-16/Schrodinger_491500 |
-|                                    sch=step,lr=5e-3                                     | 2.11799e-06 | 0.01271 | 2023-11-23/08-26-12/Schrodinger_497000 |
-|                                    sch=step,lr=5e-4                                     | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500 |
-|                           sch=onecycle,lr=1e-3,pct_start=0.2                            | 2.04241e-06 | 0.01271 | 2023-11-27/08-44-54/Schrodinger_497000 |
-|                           sch=onecycle,lr=1e-3,pct_start=0.3                            | 2.07700e-06 | 0.01272 | 2023-11-27/08-45-02/Schrodinger_497000 |
-|                           sch=onecycle,lr=2e-4,pct_start=0.2                            | 1.67650e-05 |         | 2023-11-27/08-45-24/Schrodinger_492500 |
-|                                       sch=plateau                                       |             |         |                                        |
-|                                       sch=cyclic                                        |             |         |                                        |
-|                       sch=cos,lr=1e-3,activate_func=adaptive_tanh                       | 1.56126e-06 | 0.01273 | 2023-11-27/09-21-07/Schrodinger_496000 |
-|             sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh              | 1.57909e-06 | 0.0127  | 2023-11-28/22-58-21/Schrodinger_497000 |
-|           sch=cos,lr=1e-3,activate_func=adaptive_tanh,activate_scale_factor=5           | 1.58588e-06 | 0.01277 | 2023-11-28/22-58-44/Schrodinger_498500 |
-|          sch=cos,lr=1e-3,activate_func=adaptive_tanh,activate_scale_factor=10           | 1.61653e-06 | 0.01279 | 2023-11-28/22-59-00/Schrodinger_497500 |
-| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=5  | 1.21099e-06 | 0.01273 | 2023-11-29/01-28-40/Schrodinger_497000 |
-| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=10 | 1.28245e-06 | 0.01273 | 2023-11-29/01-29-47/Schrodinger_497000 |
+|                                          Model                                          | Loss_Total  |  Score  |               model_path                |
+|:---------------------------------------------------------------------------------------:|:-----------:|:-------:|:---------------------------------------:|
+|                                    sch=step,lr=1e-3                                     | 2.22446e-06 | 0.01272 | 2023-11-21/21-31-35/Schrodinger_497000  |
+|                                     sch=cos,lr=1e-3                                     | 2.36820e-06 | 0.0127  | 2023-11-21/21-31-48/Schrodinger_498500  |
+|                           sch=onecycle,lr=1e-3,pct_start=0.1                            | 1.79403e-06 | 0.01271 | 2023-11-23/14-03-51/Schrodinger_497000  |
+|                                     sch=cos,lr=5e-3                                     | 3.02756e-06 | 0.01282 | 2023-11-22/21-04-05/Schrodinger_498500  |
+|                                     sch=cos,lr=5e-4                                     | 4.10847e-06 | 0.01288 | 2023-11-22/21-04-16/Schrodinger_491500  |
+|                                    sch=step,lr=5e-3                                     | 2.11799e-06 | 0.01271 | 2023-11-23/08-26-12/Schrodinger_497000  |
+|                                    sch=step,lr=5e-4                                     | 5.72323e-06 |         | 2023-11-23/14-08-22/Schrodinger_491500  |
+|                           sch=onecycle,lr=1e-3,pct_start=0.2                            | 2.04241e-06 | 0.01271 | 2023-11-27/08-44-54/Schrodinger_497000  |
+|                           sch=onecycle,lr=1e-3,pct_start=0.3                            | 2.07700e-06 | 0.01272 | 2023-11-27/08-45-02/Schrodinger_497000  |
+|                           sch=onecycle,lr=2e-4,pct_start=0.2                            | 1.67650e-05 |         | 2023-11-27/08-45-24/Schrodinger_492500  |
+|                       sch=cos,lr=1e-3,activate_func=adaptive_tanh                       | 1.56126e-06 | 0.01273 | 2023-11-27/09-21-07/Schrodinger_496000  |
+|             sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh              | 1.57909e-06 | 0.0127  | 2023-11-28/22-58-21/Schrodinger_497000  |
+|           sch=cos,lr=1e-3,activate_func=adaptive_tanh,activate_scale_factor=5           | 1.58588e-06 | 0.01277 | 2023-11-28/22-58-44/Schrodinger_498500  |
+|          sch=cos,lr=1e-3,activate_func=adaptive_tanh,activate_scale_factor=10           | 1.61653e-06 | 0.01279 | 2023-11-28/22-59-00/Schrodinger_497500  |
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=5  | 1.21099e-06 | 0.01273 | 2023-11-29/01-28-40/Schrodinger_497000  |
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,activate_scale_factor=10 | 1.28245e-06 | 0.01273 | 2023-11-29/01-29-47/Schrodinger_497000  |
 
 pde_data_n=80000,in,bo=10000,layer_size=64,layer_n=4,in,bo_batch_size=3000
 
-|                                    Model(gPINNs)                                    | Loss_Total | Score |            model_path            |
-|:-----------------------------------------------------------------------------------:|:----------:|:-----:|:--------------------------------:|
-| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=40000 |            |       | 2023-11-30/01-39-00/Schrodinger_ |
-| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=60000 |            |       | 2023-11-30/08-59-18/Schrodinger_ |
-
-
-
-[//]: # ()
-[//]: # (| Model&#40;pde_data_n=150000,in,bo=10000,step=500000&#41; | Loss_Total  |  Score  |                  model                   |)
-
-[//]: # (|:------------------------------------------------:|:-----------:|:-------:|:----------------------------------------:|)
-
-[//]: # (|             layer_size=30,layer_n=2              | 2.46854e-04 |         | 2023-11-16/08-38-39/0/Schrodinger_490500 |)
-
-[//]: # (|             layer_size=30,layer_n=3              | 4.04141e-05 |         | 2023-11-16/08-38-39/1/Schrodinger_485500 |)
-
-[//]: # (|             layer_size=30,layer_n=4              | 3.31216e-05 |         | 2023-11-16/08-38-39/2/Schrodinger_479000 |)
-
-[//]: # (|             layer_size=30,layer_n=5              | 2.67797e-05 |         | 2023-11-16/08-38-39/3/Schrodinger_484500 |)
-
-[//]: # (|             layer_size=64,layer_n=2              | 5.22739e-05 |         | 2023-11-16/08-39-00/0/Schrodinger_479500 |)
-
-[//]: # (|             layer_size=64,layer_n=3              | 1.81069e-05 |         | 2023-11-16/08-39-00/1/Schrodinger_499500 |)
-
-[//]: # (|             layer_size=64,layer_n=4              | 1.47116e-05 | 0.01827 | 2023-11-16/08-39-00/2/Schrodinger_474500 |)
-
-[//]: # (|             layer_size=64,layer_n=5              | 1.51026e-05 |         | 2023-11-16/08-39-00/3/Schrodinger_474000 |)
-
-[//]: # (|             layer_size=100,layer_n=2             | 3.55155e-05 |         | 2023-11-16/08-39-33/0/Schrodinger_421500 |)
-
-[//]: # (|             layer_size=100,layer_n=3             | 1.54898e-05 |         | 2023-11-16/08-39-33/1/Schrodinger_497000 |)
-
-[//]: # (|             layer_size=100,layer_n=4             | 1.42242e-05 | 0.01925 | 2023-11-16/08-39-33/2/Schrodinger_448500 |)
-
-[//]: # (|             layer_size=100,layer_n=5             |             |         |    2023-11-16/08-39-33/3/Schrodinger_    |)
-
-[//]: # (|             layer_size=200,layer_n=2             | 3.20550e-05 |         | 2023-11-16/08-39-46/0/Schrodinger_471000 |)
-
-[//]: # (|             layer_size=200,layer_n=3             | 1.85118e-05 |         | 2023-11-16/08-39-46/1/Schrodinger_486000 |)
-
-[//]: # (|             layer_size=200,layer_n=4             |             |         |    2023-11-16/08-39-46/2/Schrodinger_    |)
-
-[//]: # (|             layer_size=200,layer_n=5             |             |         |    2023-11-16/08-39-46/3/Schrodinger_    |)
-
-
-[//]: # (|  Model&#40;pde_data_n=40000/in,bo=3000&#41;  |  Loss_Total  |  Score  |                 model                  |)
-
-[//]: # (|:------------------------------------:|:------------:|:-------:|:--------------------------------------:|)
-
-[//]: # (| step=300000,layer_size=100,layer_n=4 | 2.31179e-05  | 0.02037 | 2023-10-28/17-45-39/Schrodinger_284000 |)
-
-[//]: # (| step=300000,layer_size=200,layer_n=4 | 5.93335e-05  | 0.03156 | 2023-10-28/22-35-54/Schrodinger_281000 |)
-
-[//]: # (| step=300000,layer_size=100,layer_n=3 | 2.57578e-05  | 0.01963 | 2023-10-29/07-50-16/Schrodinger_299000 |)
-
-[//]: # (| step=500000,layer_size=100,layer_n=3 | 1.53636e-05  | 0.01739 | 2023-10-29/13-00-15/Schrodinger_496000 |)
-
-[//]: # (| step=500000,layer_size=200,layer_n=3 | 2.04641e-05  | 0.01985 | 2023-10-29/18-09-36/Schrodinger_492000 |)
-
-[//]: # (| step=300000,layer_size=64,layer_n=3  | 3.07616e-05  | 0.01934 | 2023-10-30/08-35-53/Schrodinger_286000 |)
-
-|  Model(pde_data_n=80000/in,bo=1000)  |  Loss_Total  |  Score   |                  model                   |
-|:------------------------------------:|:------------:|:--------:|:----------------------------------------:|
-| step=500000,layer_size=100,layer_n=4 | 1.62328e-05  | 0.02005  |  2023-10-30/11-28-18/Schrodinger_460000  |
-| step=500000,layer_size=64,layer_n=3  | 2.01611e-05  | 0.01814  |  2023-10-30/23-06-29/Schrodinger_468500  |
-| step=500000,layer_size=50,layer_n=3  | 2.20622e-05  |  0.0169  |  2023-10-31/08-21-24/Schrodinger_493500  |
-| step=500000,layer_size=40,layer_n=3  | 2.78418e-05  | 0.01774  |  2023-10-31/14-54-52/Schrodinger_493000  |
-| step=500000,layer_size=100,layer_n=3 | 1.77277e-05  | 0.01916  |  2023-10-31/22-29-07/Schrodinger_469500  |
-| step=500000,layer_size=200,layer_n=3 | 1.88968e-05  |  0.0192  |  2023-11-1/08-21-49/Schrodinger_498000   |
-| step=500000,layer_size=40,layer_n=2  | 9.17219e-05  |          | 2023-10-31/20-08-01/0/Schrodinger_486500 |
-| step=500000,layer_size=50,layer_n=2  | 6.75445e-05  |          | 2023-10-31/20-08-01/1/Schrodinger_482500 |
-| step=500000,layer_size=64,layer_n=2  | 4.41468e-05  |          | 2023-10-31/20-08-01/2/Schrodinger_432000 |
-| step=500000,layer_size=100,layer_n=2 | 3.36234e-05  | 0.01924  | 2023-10-31/20-08-01/3/Schrodinger_490000 |
-| step=500000,layer_size=200,layer_n=2 | 3.02907e-05  |          | 2023-10-31/20-08-01/4/Schrodinger_498000 |
-| step=500000,layer_size=300,layer_n=2 | 3.88823e-05  |          | 2023-11-3/08-46-40/0/Schrodinger_484000  |
-| step=500000,layer_size=400,layer_n=2 | 4.51393e-05  |          | 2023-11-3/08-46-40/1/Schrodinger_469500  |
-| step=500000,layer_size=500,layer_n=2 | 5.24464e-05  |          | 2023-11-3/08-46-40/2/Schrodinger_429000  |
-| step=500000,layer_size=600,layer_n=2 | 6.52469e-05  |          | 2023-11-3/08-46-40/3/Schrodinger_483500  |
-
-|  Model(pde_data_n=80000/in,bo=5000)   |  Loss_Total  |  Score  |                  model                   |
-|:-------------------------------------:|:------------:|:-------:|:----------------------------------------:|
-|  step=500000,layer_size=30,layer_n=3  | 5.01326e-05  | 0.01902 | 2023-10-31/16-06-38/0/Schrodinger_488500 |
-|  step=500000,layer_size=40,layer_n=3  | 2.96447e-05  | 0.0185  | 2023-10-31/16-06-38/1/Schrodinger_483500 |
-|  step=500000,layer_size=50,layer_n=3  | 2.03531e-05  | 0.01698 | 2023-10-31/16-06-38/2/Schrodinger_499500 |
-|  step=500000,layer_size=64,layer_n=3  | 2.09041e-05  | 0.01776 | 2023-10-31/16-06-38/3/Schrodinger_460000 |
-| step=500000,layer_size=100,layer_n=3  | 1.59272e-05  | 0.01816 | 2023-10-31/16-06-38/4/Schrodinger_498500 |
-| step=500000,layer_size=200,layer_n=3  | 1.88128e-05  | 0.01916 | 2023-10-31/16-06-38/5/Schrodinger_498500 |
-|  step=500000,layer_size=30,layer_n=4  | 3.39246e-05  | 0.01842 | 2023-10-31/16-27-52/0/Schrodinger_499000 |
-|  step=500000,layer_size=40,layer_n=4  | 1.86990e-05  | 0.0192  | 2023-10-31/16-27-52/1/Schrodinger_475500 |
-|  step=500000,layer_size=50,layer_n=4  | 1.57631e-05  | 0.01732 | 2023-10-31/16-27-52/2/Schrodinger_499500 |
-|  step=500000,layer_size=64,layer_n=4  | 1.41966e-05  | 0.01666 | 2023-10-31/16-27-52/3/Schrodinger_454000 |
-| step=500000,layer_size=100,layer_n=4  | 1.27871e-05  | 0.1742  | 2023-10-31/16-27-52/4/Schrodinger_493500 |
-| step=500000,layer_size=200,layer_n=4  | 2.14827e-05  |         | 2023-10-31/16-27-52/5/Schrodinger_431500 |
-|  step=500000,layer_size=30,layer_n=2  | 2.04992e-04  | 0.03947 | 2023-10-31/16-31-48/0/Schrodinger_499500 |
-|  step=500000,layer_size=40,layer_n=2  | 1.06392e-04  |         | 2023-10-31/16-31-48/1/Schrodinger_484000 |
-|  step=500000,layer_size=50,layer_n=2  | 6.31462e-05  |         | 2023-10-31/16-31-48/2/Schrodinger_487500 |
-|  step=500000,layer_size=64,layer_n=2  | 5.98068e-05  |         | 2023-10-31/16-31-48/3/Schrodinger_469000 |
-| step=500000,layer_size=100,layer_n=2  | 4.09788e-05  |         | 2023-10-31/16-31-48/4/Schrodinger_476000 |
-| step=500000,layer_size=200,layer_n=2  | 3.01768e-05  | 0.02196 | 2023-10-31/16-31-48/5/Schrodinger_477000 |
-| step=500000,layer_size=300,layer_n=2  | 3.88333e-05  | 0.02448 | 2023-11-3/08-48-03/0/Schrodinger_427500  |
-| step=500000,layer_size=400,layer_n=2  | 4.96029e-05  |         | 2023-11-4/07-41-13/0/Schrodinger_439500  |
-| step=500000,layer_size=500,layer_n=2  | 4.15350e-05  | 0.0279  | 2023-11-4/07-41-13/1/Schrodinger_493500  |
-| step=500000,layer_size=600,layer_n=2  | 5.86797e-05  |         | 2023-11-4/07-41-13/2/Schrodinger_454000  |
-| step=1000000,layer_size=500,layer_n=2 | 2.41908e-05  | 0.02159 | 2023-11-5/19-56-22/0/Schrodinger_981000  |
-
-| Model(pde_data_n=80000/in,bo=5000,step=500000,layer_size=64,layer_n=4) | Loss_Total  |  Score  |                 model                  |
-|:----------------------------------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
-|  pde_batch_size=20000,initial_batch_size=100,boundary_batch_size=100   | 1.28162e-05 | 0.01682 | 2023-11-7/08-10-30/Schrodinger_480000  |
-|  pde_batch_size=20000,initial_batch_size=200,boundary_batch_size=200   | 1.33335e-05 | 0.01714 | 2023-11-7/08-12-18/Schrodinger_480000  |
-|  pde_batch_size=20000,initial_batch_size=500,boundary_batch_size=500   | 1.43774e-05 | 0.01732 | 2023-11-7/08-14-21/Schrodinger_485000  |
-| pde_batch_size=20000,initial_batch_size=1000,boundary_batch_size=1000  | 1.27450e-05 | 0.01666 | 2023-11-7/08-15-50/Schrodinger_488500  |
-| pde_batch_size=20000,initial_batch_size=2000,boundary_batch_size=2000  | 1.37092e-05 | 0.01766 | 2023-11-7/19-40-11/Schrodinger_487000  |
-
-| Model(pde_data_n=80000/in,bo=5000,step=500000,layer_size=64,layer_n=4) | Loss_Total  |  Score  |                  model                   |
-|:----------------------------------------------------------------------:|:-----------:|:-------:|:----------------------------------------:|
-|   pde_batch_size=10000,initial_batch_size=50,boundary_batch_size=50    | 1.71969e-05 | 0.01717 | 2023-11-8/08-35-28/0/Schrodinger_482000  |
-|   pde_batch_size=30000,initial_batch_size=50,boundary_batch_size=50    | 1.35007e-05 |         | 2023-11-8/08-35-28/1/Schrodinger_469500  |
-|   pde_batch_size=40000,initial_batch_size=50,boundary_batch_size=50    | 1.21247e-05 | 0.01626 | 2023-11-8/08-37-07/0/Schrodinger_455500  |
-|   pde_batch_size=50000,initial_batch_size=50,boundary_batch_size=50    | 1.20872e-05 | 0.0167  | 2023-11-8/08-37-07/1/Schrodinger_422000  |
-| pde_batch_size=10000,initial_batch_size=1000,boundary_batch_size=1000  | 1.79984e-05 | 0.01717 | 2023-11-8/08-37-42/0/Schrodinger_453000  |
-| pde_batch_size=30000,initial_batch_size=1000,boundary_batch_size=1000  | 1.13881e-05 | 0.01606 | 2023-11-8/08-37-42/1/Schrodinger_495500  |
-| pde_batch_size=40000,initial_batch_size=1000,boundary_batch_size=1000  | 1.16046e-05 | 0.01635 | 2023-11-8/08-38-07/0/Schrodinger_452000  |
-| pde_batch_size=50000,initial_batch_size=1000,boundary_batch_size=1000  | 1.06963e-05 | 0.01604 | 2023-11-8/08-38-07/1/Schrodinger_496000  |
-|   pde_batch_size=80000,initial_batch_size=50,boundary_batch_size=50    | 1.11497e-05 | 0.01647 | 2023-11-10/14-15-56/0/Schrodinger_495000 |
-| pde_batch_size=80000,initial_batch_size=1000,boundary_batch_size=1000  | 1.07810e-05 | 0.01607 | 2023-11-10/14-13-05/0/Schrodinger_481000 |
-| pde_batch_size=80000,initial_batch_size=5000,boundary_batch_size=5000  | 1.17307e-05 | 0.01589 | 2023-11-10/14-14-42/0/Schrodinger_496500 |
+|                                    Model(gPINNs)                                    | Loss_Total  |  Score  |               model_path               |
+|:-----------------------------------------------------------------------------------:|:-----------:|:-------:|:--------------------------------------:|
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=40000 | 2.22601e-06 | 0.01277 | 2023-11-30/12-06-30/Schrodinger_497500 |
+| sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=80000 | 2.00228e-06 | 0.01275 | 2023-11-30/12-07-20/Schrodinger_497000 |

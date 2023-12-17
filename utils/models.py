@@ -76,6 +76,8 @@ class FullyConnectedNetwork(nn.Module):
             layers.append(nn.Tanh())
         elif activate_func == "adaptive_tanh":
             layers.append(AdaptiveTanh(activate_scale_factor))
+        elif activate_func == "silu":
+            layers.append(nn.SiLU)
         elif activate_func == "Identify":
             pass
         else:
