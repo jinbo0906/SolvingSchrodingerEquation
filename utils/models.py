@@ -4,6 +4,7 @@ import os
 from numbers import Number
 import torch
 from torch import nn
+import torch.nn.functional as F
 
 
 class AdaptiveTanh(nn.Module):
@@ -17,6 +18,11 @@ class AdaptiveTanh(nn.Module):
 
     def forward(self, x):
         return self.activate_func(self.param * x * self.scale_factor)
+
+
+class SiLU(nn.Module):
+    def forward(self, x):
+        return x * F.sigmoid(x)
 
 
 class FullyConnectedNetwork(nn.Module):
@@ -77,7 +83,7 @@ class FullyConnectedNetwork(nn.Module):
         elif activate_func == "adaptive_tanh":
             layers.append(AdaptiveTanh(activate_scale_factor))
         elif activate_func == "silu":
-            layers.append(nn.SiLU)
+            layers.append(SiLU())
         elif activate_func == "Identify":
             pass
         else:

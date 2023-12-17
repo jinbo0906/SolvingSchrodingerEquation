@@ -173,8 +173,8 @@
 - [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=adaptive_tanh,pde_batch_size=80000,gpinn=True:CUDA_VISIBLE_DEVICES=2 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=adaptive_tanh model_conf.gPINNs=True train_conf.main_conf.pde_batch_size=80000 hydra.job.chdir=True
 
 - SiLU
-- [x] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=silu:CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=silu hydra.job.chdir=True
-- [x] sch=cos,lr=1e-3,activate_func=silu:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=silu hydra.job.chdir=True
+- [ ] sch=onecycle,lr=1e-3,pct_start=0.2,activate_func=silu:CUDA_VISIBLE_DEVICES=4 python train.py --config-name=Schrodinger_2 train_conf.sch=onecycle train_conf.sch_par.pct_start=0.2 model_conf.layer.activate=silu hydra.job.chdir=True
+- [ ] sch=cos,lr=1e-3,activate_func=silu:CUDA_VISIBLE_DEVICES=5 python train.py --config-name=Schrodinger_2 train_conf.sch=cos model_conf.layer.activate=silu hydra.job.chdir=True
 
 
 # Results
