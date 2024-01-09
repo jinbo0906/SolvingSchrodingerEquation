@@ -1,5 +1,5 @@
-# SolvingPDE
-2023组内流光杯比赛--人工智能驱动偏微分方程求解
+# SolvingSchrodingerEquation
+2023组内流光杯初赛--人工智能驱动薛定谔方程求解
 
 # Env
 
